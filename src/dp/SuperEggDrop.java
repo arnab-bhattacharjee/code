@@ -1,3 +1,5 @@
+package dp;
+
 public class SuperEggDrop {
 
     private Integer DP[][];

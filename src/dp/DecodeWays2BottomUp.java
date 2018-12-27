@@ -1,3 +1,5 @@
+package dp;
+
 public class DecodeWays2BottomUp {
 
     private long[] DP;

@@ -1,6 +1,8 @@
+package dp;
+
+import dp.WildcardMatching;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class WildcardMatchingTest {
     WildcardMatching matching = new WildcardMatching();
