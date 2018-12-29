@@ -24,11 +24,11 @@ public class CreateMaximumNumber {
                         n2 = DP[(l - 1)%2][i][j + 1].clone();
                     if (n1 != null) n1[k - l] = nums1[i];
                     if (n2 != null) n2[k - l] = nums2[j];
-                    DP[l%2][i][j] = max(n1, n2);
+                    DP[l%2][i][j] = max(n1, n2,l);
                     if (i + 1 <= nums1.length)
-                        DP[l%2][i][j] = max(DP[l%2][i][j], DP[l%2][i + 1][j]);
+                        DP[l%2][i][j] = max(DP[l%2][i][j], DP[l%2][i + 1][j],l);
                     if (j + 1 <= nums2.length)
-                        DP[l%2][i][j] = max(DP[l%2][i][j], DP[l%2][i][j + 1]);
+                        DP[l%2][i][j] = max(DP[l%2][i][j], DP[l%2][i][j + 1],l);
                 }
             }
         }
@@ -36,10 +36,10 @@ public class CreateMaximumNumber {
         return DP[k%2][0][0];
     }
 
-    private int[] max(int[] n1, int[] n2) {
+    private int[] max(int[] n1, int[] n2, int l) {
         if (n1 == null) return n2;
         if (n2 == null) return n1;
-        for (int i=0; i<n1.length; i++) {
+        for (int i=n1.length-l; i<n1.length; i++) {
             if (n1[i]>n2[i]) return n1;
             else if (n2[i]>n1[i]) return n2;
         }
