@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 /**
  * DP[i][j][k] = max(n1[i].DP[i+1][j][k-1], n2[j].DP[i][j+1][k-1], DP[i+1][j][k], DP[i][j+1][k])
- * Memory optimization : optimized memory using the observation that maxNum(*,*,l) is determined from maxNum(*,*,l) and maxNum(*,*,l-1).
- * Time optimization1 : optimized the max function by passing l alongside to avoid unnecessary comparisons.
+ * Memory optimization : optimized memory using the observation that maxNum(*,*,k) is determined from maxNum(*,*,k) and maxNum(*,*,k-1).
+ * Time optimization1 : optimized the max function by passing k alongside to avoid unnecessary comparisons.
  * Time optimization2 : optimized the number of guesses by comparing the ith and jth values and pruning the one that is smaller.
  */
 public class CreateMaximumNumber {
