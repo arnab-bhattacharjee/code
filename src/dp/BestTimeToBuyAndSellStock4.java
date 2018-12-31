@@ -16,7 +16,7 @@ public class BestTimeToBuyAndSellStock4 {
                     DP[i%2][j] = Math.max(DP[i%2][j], DP[i%2][j+1]);
                 }
                 for (int l=j+1;l<prices.length;l++) {
-                    if (l+1 < prices.length && i != 1) {
+                    if (((l + 1) < prices.length) && (i != 1)) {
                         DP[i % 2][j] = Math.max(DP[i % 2][j], DP[(i - 1) % 2][l + 1] + prices[l] - prices[j]);
                     } else if (i==1) {
                         DP[i % 2][j] = Math.max(DP[i % 2][j], prices[l] - prices[j]);
