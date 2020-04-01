@@ -21,7 +21,7 @@ public class ArithmeticSlices2SubsequenceTest {
 
     @Test
     public void test3() {
-        Assert.assertEquals(1030, a.numberOfArithmeticSlices(new int[]{2,4,4,4,6,6,6,8,8}));
+        Assert.assertEquals(47, a.numberOfArithmeticSlices(new int[]{2,4,4,4,6,6,6,8,8}));
     }
 
 }
