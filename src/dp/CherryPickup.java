@@ -20,32 +20,33 @@ public class CherryPickup {
                     if (grid[i][steps-i] == -1 || grid[j][steps-j] == -1){
                         dp[i][j][steps] = -1;
                     } else {
+                        int value = grid[i][steps - i] + ((i != j) ? grid[j][steps - j] : 0);
                         if (i-1>=0 && j-1>=0 && i-1<=steps-1 && j-1<=steps-1) {
                             if (dp[i-1][j-1][steps-1] == -1) {
                             } else {
-                                dp[i][j][steps] = Math.max(dp[i - 1][j - 1][steps - 1] + grid[i][steps - i] + ((i != j) ? grid[j][steps - j] : 0), dp[i][j][steps]);
+                                dp[i][j][steps] = Math.max(dp[i - 1][j - 1][steps - 1] + value, dp[i][j][steps]);
                             }
                         }
                         if (i-1>=0 && i-1<=steps-1 && j<=steps-1) {
                             if (dp[i-1][j][steps-1] == -1) {
                             } else {
-                                dp[i][j][steps] = Math.max(dp[i - 1][j][steps - 1] + grid[i][steps - i] + ((i != j) ? grid[j][steps - j] : 0), dp[i][j][steps]);
+                                dp[i][j][steps] = Math.max(dp[i - 1][j][steps - 1] + value, dp[i][j][steps]);
                             }
                         }
                         if (j-1>=0 && j-1<=steps-1 && i<=steps-1) {
                             if (dp[i][j-1][steps-1] == -1) {
                             } else {
-                                dp[i][j][steps] = Math.max(dp[i][j - 1][steps - 1] + grid[i][steps - i] + ((i != j) ? grid[j][steps - j] : 0), dp[i][j][steps]);
+                                dp[i][j][steps] = Math.max(dp[i][j - 1][steps - 1] + value, dp[i][j][steps]);
                             }
                         }
                         if (j<=steps-1 && i<=steps-1) {
                             if (dp[i][j][steps - 1] == -1) {
                             } else {
-                                dp[i][j][steps] = Math.max(dp[i][j][steps - 1] + grid[i][steps - i] + ((i != j) ? grid[j][steps - j] : 0), dp[i][j][steps]);
+                                dp[i][j][steps] = Math.max(dp[i][j][steps - 1] + value, dp[i][j][steps]);
                             }
                         }
                     }
-                    System.out.println("dp["+i+"]["+j+"][" + steps + "]" + dp[i][j][steps]);
+                    //System.out.println("dp["+i+"]["+j+"][" + steps + "]" + dp[i][j][steps]);
                 }
             }
         }
