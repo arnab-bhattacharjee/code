@@ -21,17 +21,17 @@ public class CherryPickup {
                         dp[i][j][steps] = -1;
                     } else {
                         int value = grid[i][steps - i] + ((i != j) ? grid[j][steps - j] : 0);
-                        if (i-1>=0 && j-1>=0 && i-1<=steps-1 && j-1<=steps-1) {
+                        if (i-1>=0 && j-1>=0) {
                             if (dp[i-1][j-1][steps-1] != -1) {
                                 dp[i][j][steps] = Math.max(dp[i - 1][j - 1][steps - 1] + value, dp[i][j][steps]);
                             }
                         }
-                        if (i-1>=0 && i-1<=steps-1 && j<=steps-1) {
+                        if (i-1>=0 && j<=steps-1) {
                             if (dp[i-1][j][steps-1] != -1) {
                                 dp[i][j][steps] = Math.max(dp[i - 1][j][steps - 1] + value, dp[i][j][steps]);
                             }
                         }
-                        if (j-1>=0 && j-1<=steps-1 && i<=steps-1) {
+                        if (j-1>=0 && i<=steps-1) {
                             if (dp[i][j-1][steps-1] != -1) {
                                 dp[i][j][steps] = Math.max(dp[i][j - 1][steps - 1] + value, dp[i][j][steps]);
                             }
