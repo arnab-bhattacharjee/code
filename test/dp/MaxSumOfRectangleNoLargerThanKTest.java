@@ -10,7 +10,7 @@ public class MaxSumOfRectangleNoLargerThanKTest {
 
     @Test
     public void test1() {
-        maxSum.maxSumSubmatrix(new int[][]{{1,0,1}, {0,-2,3}}, 1);
+        System.out.println(maxSum.maxSumSubmatrix(new int[][]{{1,0,1}, {0,-2,3}}, 2));
     }
 
 }
