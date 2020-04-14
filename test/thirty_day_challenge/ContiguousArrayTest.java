@@ -1,4 +1,4 @@
-package dp;
+package thirty_day_challenge;
 
 import org.junit.Test;
 import thirty_day_challenge.ContiguousArray;

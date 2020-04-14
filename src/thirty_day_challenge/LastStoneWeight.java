@@ -1,4 +1,4 @@
-package dp;
+package thirty_day_challenge;
 
 import java.util.Arrays;
 import java.util.Comparator;

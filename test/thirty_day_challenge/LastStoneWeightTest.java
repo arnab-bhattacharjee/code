@@ -1,9 +1,8 @@
-package dp;
+package thirty_day_challenge;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
+import thirty_day_challenge.LastStoneWeight;
 
 public class LastStoneWeightTest {
 
