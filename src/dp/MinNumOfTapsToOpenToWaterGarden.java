@@ -15,8 +15,8 @@ public class MinNumOfTapsToOpenToWaterGarden {
     }
 
     public int minTaps(int i, int[] ranges, int len) {
-        if (i+len-1 >= ranges.length-1) return 0;
-        if (i>ranges.length-1 && len<0) return -1;
+        if (i+len >= ranges.length-1) return 0;
+        if (Math.abs(len) > 100 || (i>ranges.length-1 && len<0)) return -1;
         if (dp[i].containsKey(len)) return dp[i].get(len);
 
         // don't include ith tap
@@ -29,7 +29,7 @@ public class MinNumOfTapsToOpenToWaterGarden {
         if (ranges[i] == 0 || (len <= 0 && ranges[i] < -len))
             state2 = -1;
         else {
-            int val = minTaps(i+1, ranges, Math.max(len-1, ranges[i]));
+            int val = minTaps(i+1, ranges, Math.max(len-1, ranges[i]-1));
             if (val == -1) state2 = -1;
             else state2 = val+1;
         }
@@ -41,8 +41,8 @@ public class MinNumOfTapsToOpenToWaterGarden {
 
         dp[i].put(len, res);
 
-        if (res != -1)
-        System.out.println(i + " " + len + "\t" + res);
+        //if (res != -1)
+        //System.out.println(i + " " + len + "\t" + res);
 
         return res;
     }
