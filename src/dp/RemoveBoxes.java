@@ -6,16 +6,20 @@ import java.util.Stack;
 
 public class RemoveBoxes {
 
+    private int[] boxes;
+    private int[][][] dp;
+    private int[] count;
+
     public int removeBoxes(int[] boxes) {
         int n = boxes.length;
 
         List<Integer> cBox = new ArrayList<>();
         List<Integer> count = new ArrayList<>();
 
-        for (int i=0; i<n; i++) {
+        for (int i = 0; i < n; i++) {
             cBox.add(boxes[i]);
             int tCount = 1;
-            while (i+1<=n-1 && boxes[i+1] == boxes[i]) {
+            while (i + 1 <= n - 1 && boxes[i + 1] == boxes[i]) {
                 tCount++;
                 i++;
             }
@@ -23,42 +27,30 @@ public class RemoveBoxes {
         }
 
         n = cBox.size();
+        this.boxes = cBox.stream().mapToInt(i -> i).toArray();
+        this.count = count.stream().mapToInt(i -> i).toArray();
 
-        int[][] dp = new int[n][n];
-        int[][] len = new int[n][n];
+        this.dp = new int[n][n][n];
 
-        for (int i=0; i<n; i++) {
-            dp[i][i] = count.get(i) * count.get(i);
-            len[i][i] = count.get(i);
-        }
+        return removeBoxes(0, n - 1, 0);
+    }
 
-        for (int l=2; l<=n; l++) {
-            for (int i=0; i<=n-l; i++) {
-                int j = i+l-1;
-                dp[i][j] = dp[i][j-1] + dp[j][j];
-                len[i][j] = count.get(j);
-                for (int k=i; k<j; k++) {
-                    if (cBox.get(k) == cBox.get(j)) {
-                        int val = dp[i][k]
-                                        - (len[i][k] * len[i][k])
-                                        + ((len[i][k] + count.get(j)) * (len[i][k] + count.get(j)))
-                                        + dp[k+1][j-1];
-                        if (val >= dp[i][j]) {
-                            dp[i][j] = val;
-                            len[i][j] = len[i][k] + count.get(j);
-                        }
-                    }
-                }
+    private int removeBoxes(int i, int j, int streak) {
+        if (i > j) return 0;
+
+        if (dp[i][j][streak] != 0)
+            return dp[i][j][streak];
+
+        // start a new streak
+        dp[i][j][streak] = removeBoxes(i+1, j, 0) + (streak + count[i]) * (streak + count[i]);
+
+        // continue with streak
+        for (int k=i+1; k<=j; k++) {
+            if (boxes[i] == boxes[k]) {
+                dp[i][j][streak] = Math.max(removeBoxes(i+1, k-1, 0)
+                        + removeBoxes(k, j, streak + count[i]), dp[i][j][streak]);
             }
         }
-
-        for (int i=0; i<n; i++) {
-            for (int j=0; j<n; j++) {
-                System.out.print(dp[i][j] + "\t");
-            }
-            System.out.println();
-        }
-
-        return dp[0][n-1];
+        return dp[i][j][streak];
     }
 }
