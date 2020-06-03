@@ -1,5 +1,7 @@
 package dp;
 
+import org.omg.CORBA.MARSHAL;
+
 public class MinCostToMergeStones {
 
     int[][] dp;
@@ -10,10 +12,10 @@ public class MinCostToMergeStones {
 
     public int mergeStones(int[] stones, int K) {
         n = stones.length;
-        if (K!=2 && n%(K-1) != 1) return -1;
+        if ((n-1)%(K-1) > 0) return -1;
         this.stones = stones;
         this.k = K;
-        dp = new int[n][K+1];
+        dp = new int[n][n];
         cum = new int[n];
 
         cum[0] = stones[0];
@@ -21,49 +23,25 @@ public class MinCostToMergeStones {
             cum[i] = cum[i-1] + stones[i];
         }
 
-        return mergeStones(0, 1);
+        return mergeStones(0, n-1);
     }
 
-    private int mergeStones(int startIdx, int piles) {
-        //System.out.println(startIdx + "\t" + piles);
-        if (startIdx == n && piles == 0) return 0;
-        if (piles == 0 || startIdx >= n) return -1;
-        if (dp[startIdx][piles] != 0)
-            return dp[startIdx][piles];
+    private int mergeStones(int startIdx, int endIdx) {
+        if (startIdx == endIdx)
+            return 0;
 
-        boolean kMerge = false;
+        if (dp[startIdx][endIdx] != 0)
+            return dp[startIdx][endIdx];
 
-        // first pile is the ith pile
-        int c1 = mergeStones(startIdx+1, piles-1);
-        if (piles == 1 && startIdx != n-1) {
-            c1 = mergeStones(startIdx+1, k-1);
-            c1 += cum[n-1]-((startIdx-1>=0) ? cum[startIdx-1] : 0);
-        } else {
-            c1 = mergeStones(startIdx+1, piles-1);
+        dp[startIdx][endIdx] = Integer.MAX_VALUE;
+
+        for (int i=startIdx; i<endIdx; i+=k-1) {
+            dp[startIdx][endIdx] = Math.min(dp[startIdx][endIdx]
+            , mergeStones(startIdx, i) + mergeStones(i+1, endIdx));
         }
+        if ((endIdx-startIdx) % (k-1) == 0)
+            dp[startIdx][endIdx] += cum[endIdx]-(startIdx-1 >= 0 ? cum[startIdx-1] : 0);
 
-        // first pile is k-consecutive pile
-        int c2;
-        if (piles == 1 && n-startIdx > k) {
-            c2 = mergeStones(startIdx+k, k-1);
-            c2 += cum[n-1]-((startIdx-1>=0) ? cum[startIdx-1] : 0);
-        } else {
-            c2 = mergeStones(startIdx+k, piles - 1);
-        }
-        if (c2 != -1) {
-            c2 += cum[startIdx + k - 1] - ((startIdx - 1 >= 0) ? cum[startIdx - 1] : 0);
-        }
-
-        int res;
-        if (c1 == -1)
-            res = c2;
-        else if (c2 == -1)
-            res = c1;
-        else
-            res = Math.min(c1,c2);
-
-        dp[startIdx][piles] = res;
-        System.out.println(startIdx + "\t" + piles + "\t : " + dp[startIdx][piles]);
-        return res;
+        return dp[startIdx][endIdx];
     }
 }
