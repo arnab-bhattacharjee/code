@@ -10,7 +10,7 @@ public class TallestBillboardTest {
 
     @Test
     public void test1() {
-        System.out.println(tallestBillboard.tallestBillboard(new int[]{1,2}));
+        System.out.println(tallestBillboard.tallestBillboard(new int[]{1,2,3,4,5,6}));
     }
 
 }

@@ -6,54 +6,35 @@ import java.util.Map;
 
 public class TallestBillboard {
 
-    private int[][] dp;
-    private int n;
-    private int[] rods;
-
     public int tallestBillboard(int[] rods) {
-        n = rods.length;
-        this.rods = rods;
-
-        dp = new int[10001][n];
+        int n = rods.length;
 
         int maxCap = Arrays.stream(rods).sum();
+        int[] dp = new int[(maxCap<<1) + 1];
+
+        for (int i=0; i<dp.length; i++)
+            dp[i] = -1;
+
+        dp[maxCap] = 0;
 
         for (int i = 0; i < n; i++) {
+            int[] t = Arrays.copyOf(dp, dp.length);
             for (int c = 0; c <= maxCap; c++) {
-                dp[c + 5000][i] = -1;
-                dp[-c + 5000][i] = -1;
-                if (c - rods[i] == 0) {
-                    dp[c + 5000][i] = Math.max(rods[i], dp[c + 5000][i]);
-                    dp[-c + 5000][i] = Math.max(rods[i], dp[-c + 5000][i]);
-                }
-
-
-                if (i - 1 >= 0 && dp[c + 5000 - rods[i]][i - 1] != -1) {
+                if (t[c + maxCap - rods[i]] != -1) {
                     // adding to positive capacity
-                    dp[c + 5000][i] = Math.max(dp[c + 5000 - rods[i]][i - 1] + rods[i], dp[c + 5000][i]);
+                    dp[c + maxCap] = Math.max(t[c + maxCap - rods[i]] + rods[i], dp[c + maxCap]);
+                    dp[-c + maxCap] = Math.max(t[-c + maxCap + rods[i]] + rods[i], dp[-c + maxCap]);
                 }
 
-                if (i - 1 >= 0 && -c + 5000 - rods[i] >= 0 && dp[-c + 5000 - rods[i]][i - 1] != -1) {
+                if (-c + maxCap - rods[i] >= 0 && t[-c + maxCap - rods[i]] != -1) {
                     // adding to negative capacity
-                    dp[-c + 5000][i] = Math.max(dp[-c + 5000 - rods[i]][i - 1] + rods[i], dp[-c + 5000][i]);
+                    dp[-c + maxCap] = Math.max(t[-c + maxCap - rods[i]] + rods[i], dp[-c + maxCap]);
+                    dp[c + maxCap] = Math.max(t[c + maxCap + rods[i]] + rods[i], dp[c + maxCap]);
                 }
 
-                if (i - 1 >= 0 && dp[-c + 5000 + rods[i]][i - 1] != -1) {
-                    // reducing from negative capacity
-                    dp[-c + 5000][i] = Math.max(dp[-c + 5000 + rods[i]][i - 1] + rods[i], dp[-c + 5000][i]);
-                }
-
-                if (i - 1 >= 0 && c + 5000 + rods[i] <= 10000 && dp[c + 5000 + rods[i]][i - 1] != -1) {
-                    // reducing from positive capacity
-                    dp[c + 5000][i] = Math.max(dp[c + 5000 + rods[i]][i - 1] + rods[i], dp[c + 5000][i]);
-                }
-
-                dp[c + 5000][i] = Math.max((i - 1 >= 0) ? dp[c + 5000][i - 1] : 0, dp[c + 5000][i]);
-                dp[-c + 5000][i] = Math.max((i - 1 >= 0) ? dp[-c + 5000][i - 1] : 0, dp[-c + 5000][i]);
             }
         }
 
-        return dp[5000][n-1]>>1;
+        return (dp[maxCap] == -1) ? 0 : dp[maxCap]>>1;
     }
-
 }
