@@ -12,28 +12,48 @@ public class TallestBillboard {
 
     public int tallestBillboard(int[] rods) {
         n = rods.length;
-        dp = new int[n][10000];
         this.rods = rods;
 
-        for (int i=0; i<n; i++)
-            Arrays.fill(dp[i], -1);
+        dp = new int[10001][n];
 
-        return tallestBillboard(n-1, 0);
-    }
+        int maxCap = Arrays.stream(rods).sum();
 
-    private int tallestBillboard(int idx, int diff) {
-        if (idx < 0) return 0;
+        for (int i = 0; i < n; i++) {
+            for (int c = 0; c <= maxCap; c++) {
+                dp[c + 5000][i] = -1;
+                dp[-c + 5000][i] = -1;
+                if (c - rods[i] == 0) {
+                    dp[c + 5000][i] = Math.max(rods[i], dp[c + 5000][i]);
+                    dp[-c + 5000][i] = Math.max(rods[i], dp[-c + 5000][i]);
+                }
 
-        if (dp[idx][diff+5000] != -1) {
-            return dp[idx][diff+5000];
+
+                if (i - 1 >= 0 && dp[c + 5000 - rods[i]][i - 1] != -1) {
+                    // adding to positive capacity
+                    dp[c + 5000][i] = Math.max(dp[c + 5000 - rods[i]][i - 1] + rods[i], dp[c + 5000][i]);
+                }
+
+                if (i - 1 >= 0 && -c + 5000 - rods[i] >= 0 && dp[-c + 5000 - rods[i]][i - 1] != -1) {
+                    // adding to negative capacity
+                    dp[-c + 5000][i] = Math.max(dp[-c + 5000 - rods[i]][i - 1] + rods[i], dp[-c + 5000][i]);
+                }
+
+                if (i - 1 >= 0 && dp[-c + 5000 + rods[i]][i - 1] != -1) {
+                    // reducing from negative capacity
+                    dp[-c + 5000][i] = Math.max(dp[-c + 5000 + rods[i]][i - 1] + rods[i], dp[-c + 5000][i]);
+                }
+
+                if (i - 1 >= 0 && c + 5000 + rods[i] <= 10000 && dp[c + 5000 + rods[i]][i - 1] != -1) {
+                    // reducing from positive capacity
+                    dp[c + 5000][i] = Math.max(dp[c + 5000 + rods[i]][i - 1] + rods[i], dp[c + 5000][i]);
+                }
+
+                dp[c + 5000][i] = Math.max((i - 1 >= 0) ? dp[c + 5000][i - 1] : 0, dp[c + 5000][i]);
+                dp[-c + 5000][i] = Math.max((i - 1 >= 0) ? dp[-c + 5000][i - 1] : 0, dp[-c + 5000][i]);
+            }
         }
 
-        int val = tallestBillboard(idx-1, diff + rods[idx]) + rods[idx];
-
-        val = Math.max(tallestBillboard(idx-1, diff - rods[idx]), val);
-
-        val = Math.max(tallestBillboard(idx-1, diff), val);
-
-        return dp[idx][diff+5000] = val;
+        return dp[5000][n-1]>>1;
     }
+
 }
