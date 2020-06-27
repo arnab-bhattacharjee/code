@@ -21,15 +21,13 @@ public class TallestBillboard {
             int[] t = Arrays.copyOf(dp, dp.length);
             for (int c = 0; c <= maxCap; c++) {
                 if (t[c + maxCap - rods[i]] != -1) {
-                    // adding to positive capacity
                     dp[c + maxCap] = Math.max(t[c + maxCap - rods[i]] + rods[i], dp[c + maxCap]);
-                    dp[-c + maxCap] = Math.max(t[-c + maxCap + rods[i]] + rods[i], dp[-c + maxCap]);
+                    dp[-c + maxCap] = dp[c + maxCap];
                 }
 
                 if (-c + maxCap - rods[i] >= 0 && t[-c + maxCap - rods[i]] != -1) {
-                    // adding to negative capacity
                     dp[-c + maxCap] = Math.max(t[-c + maxCap - rods[i]] + rods[i], dp[-c + maxCap]);
-                    dp[c + maxCap] = Math.max(t[c + maxCap + rods[i]] + rods[i], dp[c + maxCap]);
+                    dp[c + maxCap] = dp[-c + maxCap];
                 }
 
             }
