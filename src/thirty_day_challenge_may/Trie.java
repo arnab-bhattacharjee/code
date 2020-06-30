@@ -53,6 +53,20 @@ public class Trie {
         return curr;
     }
 
+    public TrieNode getRoot() {
+        return root;
+    }
+
+    public TrieNode traverse(TrieNode node, char c) {
+        TrieNode curr = node;
+        if (curr.alphabets[c-'a'] != null) {
+            curr = curr.alphabets[c-'a'];
+        } else {
+            return null;
+        }
+        return curr;
+    }
+
     /** Returns if there is any word in the trie that starts with the given prefix. */
     public boolean startsWith(String prefix) {
         TrieNode node = this.searchNode(prefix);
