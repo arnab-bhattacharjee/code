@@ -3,9 +3,6 @@ package dp;
 import helper.TreeNode;
 import org.junit.Assert;
 import org.junit.Test;
-import sun.reflect.generics.tree.Tree;
-
-import static org.junit.Assert.*;
 
 public class BinaryTreeCamerasTest {
 

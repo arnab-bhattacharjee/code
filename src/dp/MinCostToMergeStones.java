@@ -1,7 +1,5 @@
 package dp;
 
-import org.omg.CORBA.MARSHAL;
-
 public class MinCostToMergeStones {
 
     int[][] dp;
