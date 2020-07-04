@@ -20,8 +20,7 @@ public class PrisonCellAfterNDays {
         for (; i<=N; i++) {
             int[] nextCells = new int[cells.length];
             for (int j=0; j<cells.length; j++) {
-                if (j-1 >= 0 && j+1 < cells.length && ((cells[j-1] == 1 && cells[j+1] == 1)
-                        || (cells[j-1] == 0 && cells[j+1] == 0)))
+                if (j-1 >= 0 && j+1 < cells.length && (cells[j-1] == 1 ^ cells[j+1] == 0))
                     nextCells[j] = 1;
                 else
                     nextCells[j] = 0;
@@ -53,7 +52,7 @@ public class PrisonCellAfterNDays {
         int mask=0;
         for (int i=0; i<cells.length; i++) {
             if (cells[i] == 1)
-                mask += 1<<i;
+                mask |= 1<<i;
         }
         return mask;
     }
