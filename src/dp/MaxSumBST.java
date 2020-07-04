@@ -23,7 +23,7 @@ public class MaxSumBST {
 
     public int maxSumBST(TreeNode root) {
         maxSumBstRec(root);
-        return max;
+        return (max > 0) ? max : 0;
     }
 
     private State maxSumBstRec(TreeNode root) {
