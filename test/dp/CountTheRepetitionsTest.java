@@ -11,7 +11,7 @@ public class CountTheRepetitionsTest {
 
     @Test
     public void test1() {
-        Assert.assertEquals(2,count.getMaxRepetitions("abc", 1, "abc", 1));
+        Assert.assertEquals(4,count.getMaxRepetitions("aaa", 8, "aaaaa", 1));
     }
 
 }
