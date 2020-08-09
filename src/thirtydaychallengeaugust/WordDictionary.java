@@ -40,8 +40,10 @@ public class WordDictionary {
         boolean match = false;
         if (word[startIdx] == '.') {
             for (TrieNode child : node.children) {
-                if (child != null)
-                    match |= search(word, startIdx+1, child);
+                if (child != null) {
+                    match |= search(word, startIdx + 1, child);
+                    if (match) return true;
+                }
             }
         } else {
             if (node.children[word[startIdx] - 'a'] != null)
